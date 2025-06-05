@@ -1,0 +1,10 @@
+{
+  "versions": [
+    { "value": "14.4", "weight": 20 },
+    { "value": "14.0", "weight": 15 },
+    { "value": "13.6", "weight": 10 },
+    { "value": "12.6", "weight": 5 },
+    { "value": "11.6", "weight": 2 },
+    { "value": "10.15", "weight": 1 }
+  ]
+}

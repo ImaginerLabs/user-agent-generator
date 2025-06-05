@@ -1,0 +1,15 @@
+{
+  "versions": [
+    { "value": "17.4", "weight": 20 },
+    { "value": "17.0", "weight": 15 },
+    { "value": "16.6", "weight": 10 },
+    { "value": "15.6.1", "weight": 5 },
+    { "value": "14.1.2", "weight": 2 },
+    { "value": "13.1.2", "weight": 1 }
+  ],
+  "webkitVersions": [
+    { "value": "605.1.15", "weight": 30 },
+    { "value": "605.1.13", "weight": 5 },
+    { "value": "605.1.11", "weight": 1 }
+  ]
+}

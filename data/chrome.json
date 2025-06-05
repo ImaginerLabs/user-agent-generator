@@ -1,0 +1,19 @@
+{
+  "versions": [
+    { "value": "124.0.6367.91", "weight": 30 },
+    { "value": "123.0.6299.104", "weight": 20 },
+    { "value": "120.0.6099.71", "weight": 10 },
+    { "value": "100.0.4896.60", "weight": 3 },
+    { "value": "94.0.4606.81", "weight": 1 }
+  ],
+  "webkitVersions": [
+    { "value": "537.36", "weight": 50 },
+    { "value": "537.35", "weight": 5 },
+    { "value": "537.34", "weight": 2 }
+  ],
+  "safariVersions": [
+    { "value": "537.36", "weight": 50 },
+    { "value": "537.35", "weight": 5 },
+    { "value": "537.34", "weight": 2 }
+  ]
+}
