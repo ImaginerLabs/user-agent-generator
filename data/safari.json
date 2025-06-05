@@ -1,15 +1,81 @@
 {
   "versions": [
-    { "value": "17.4", "weight": 20 },
-    { "value": "17.0", "weight": 15 },
-    { "value": "16.6", "weight": 10 },
-    { "value": "15.6.1", "weight": 5 },
-    { "value": "14.1.2", "weight": 2 },
-    { "value": "13.1.2", "weight": 1 }
+    {
+      "value": "17",
+      "weight": 70,
+      "subValue": [
+        { "value": "17.4.1" },
+        { "value": "17.4.2" },
+        { "value": "17.4.3" },
+        { "value": "17.4.4" },
+        { "value": "17.4.5" },
+        { "value": "17.0.1" },
+        { "value": "17.0.2" },
+        { "value": "17.0.3" },
+        { "value": "17.0.4" },
+        { "value": "17.0.5" }
+      ]
+    },
+    {
+      "value": "16",
+      "weight": 15,
+      "subValue": [
+        { "value": "16.6.1" },
+        { "value": "16.6.2" },
+        { "value": "16.6.3" },
+        { "value": "16.6.4" },
+        { "value": "16.6.5" }
+      ]
+    },
+    {
+      "value": "15",
+      "weight": 10,
+      "subValue": [
+        { "value": "15.6.1" },
+        { "value": "15.6.2" },
+        { "value": "15.6.3" },
+        { "value": "15.6.4" },
+        { "value": "15.6.5" }
+      ]
+    },
+    {
+      "value": "14",
+      "weight": 4,
+      "subValue": [
+        { "value": "14.1.2" },
+        { "value": "14.1.3" },
+        { "value": "14.1.4" },
+        { "value": "14.1.5" },
+        { "value": "14.1.6" }
+      ]
+    },
+    {
+      "value": "13",
+      "weight": 1,
+      "subValue": [
+        { "value": "13.1.2" },
+        { "value": "13.1.3" },
+        { "value": "13.1.4" },
+        { "value": "13.1.5" },
+        { "value": "13.1.6" }
+      ]
+    }
   ],
   "webkitVersions": [
-    { "value": "605.1.15", "weight": 30 },
-    { "value": "605.1.13", "weight": 5 },
-    { "value": "605.1.11", "weight": 1 }
+    {
+      "value": "605",
+      "weight": 100,
+      "subValue": [
+        { "value": "605.1.15" },
+        { "value": "605.1.16" },
+        { "value": "605.1.17" },
+        { "value": "605.1.18" },
+        { "value": "605.1.19" },
+        { "value": "605.1.13" },
+        { "value": "605.1.14" },
+        { "value": "605.1.11" },
+        { "value": "605.1.12" }
+      ]
+    }
   ]
 }

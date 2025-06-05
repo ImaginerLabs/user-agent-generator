@@ -1,10 +1,59 @@
 {
   "versions": [
-    { "value": "14.4", "weight": 20 },
-    { "value": "14.0", "weight": 15 },
-    { "value": "13.6", "weight": 10 },
-    { "value": "12.6", "weight": 5 },
-    { "value": "11.6", "weight": 2 },
-    { "value": "10.15", "weight": 1 }
+    {
+      "value": "14",
+      "weight": 60,
+      "subValue": [
+        { "value": "14.4.1" },
+        { "value": "14.4.2" },
+        { "value": "14.4.3" },
+        { "value": "14.4.4" },
+        { "value": "14.4.5" }
+      ]
+    },
+    {
+      "value": "13",
+      "weight": 25,
+      "subValue": [
+        { "value": "13.6.1" },
+        { "value": "13.6.2" },
+        { "value": "13.6.3" },
+        { "value": "13.6.4" },
+        { "value": "13.6.5" }
+      ]
+    },
+    {
+      "value": "12",
+      "weight": 10,
+      "subValue": [
+        { "value": "12.6.7" },
+        { "value": "12.6.8" },
+        { "value": "12.6.9" },
+        { "value": "12.6.10" },
+        { "value": "12.6.11" }
+      ]
+    },
+    {
+      "value": "11",
+      "weight": 4,
+      "subValue": [
+        { "value": "11.6.6" },
+        { "value": "11.6.7" },
+        { "value": "11.6.8" },
+        { "value": "11.6.9" },
+        { "value": "11.6.10" }
+      ]
+    },
+    {
+      "value": "10",
+      "weight": 1,
+      "subValue": [
+        { "value": "10.15.7" },
+        { "value": "10.15.8" },
+        { "value": "10.15.9" },
+        { "value": "10.15.10" },
+        { "value": "10.15.11" }
+      ]
+    }
   ]
 }

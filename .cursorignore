@@ -1,39 +1,54 @@
+# ==============================================
+# Cursor IDE 忽略文件配置
+# Cursor IDE Ignore File Configuration
+# ==============================================
+
 # 忽略 node_modules 依赖目录
+# Ignore node_modules dependency directory
 node_modules/
 
 # 忽略 Python 虚拟环境
+# Ignore Python virtual environments
 venv/
 .env/
 __pycache__/
 
 # 忽略构建产物
+# Ignore build artifacts
 dist/
 build/
 out/
 
 # 忽略日志文件
+# Ignore log files
 *.log
 
 # 忽略操作系统生成的文件
+# Ignore operating system generated files
 .DS_Store
 Thumbs.db
 
 # 忽略环境变量文件
+# Ignore environment variable files
 .env
 .env.*
 
 # 忽略 IDE 配置文件
+# Ignore IDE configuration files
 .vscode/
 .idea/
 
 # 忽略测试覆盖率文件
+# Ignore test coverage files
 coverage/
 *.coverage
 
 # 忽略打包锁文件（如不需要索引）
+# Ignore package lock files (if no indexing needed)
 package-lock.json
 yarn.lock
 
 # 忽略临时文件
+# Ignore temporary files
 *.tmp
 *.swp

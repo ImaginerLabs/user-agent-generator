@@ -1,10 +1,70 @@
 {
   "versions": [
-    { "value": "126.0", "weight": 20 },
-    { "value": "125.0", "weight": 15 },
-    { "value": "120.0", "weight": 10 },
-    { "value": "110.0", "weight": 5 },
-    { "value": "95.0", "weight": 2 },
-    { "value": "88.0", "weight": 1 }
+    {
+      "value": "126.0",
+      "weight": 40,
+      "subValue": [
+        { "value": "126.0.1" },
+        { "value": "126.0.2" },
+        { "value": "126.0.3" },
+        { "value": "126.0.4" },
+        { "value": "126.0.5" }
+      ]
+    },
+    {
+      "value": "125.0",
+      "weight": 30,
+      "subValue": [
+        { "value": "125.0.1" },
+        { "value": "125.0.2" },
+        { "value": "125.0.3" },
+        { "value": "125.0.4" },
+        { "value": "125.0.5" }
+      ]
+    },
+    {
+      "value": "120.0",
+      "weight": 15,
+      "subValue": [
+        { "value": "120.0.1" },
+        { "value": "120.0.2" },
+        { "value": "120.0.3" },
+        { "value": "120.0.4" },
+        { "value": "120.0.5" }
+      ]
+    },
+    {
+      "value": "110.0",
+      "weight": 10,
+      "subValue": [
+        { "value": "110.0.1" },
+        { "value": "110.0.2" },
+        { "value": "110.0.3" },
+        { "value": "110.0.4" },
+        { "value": "110.0.5" }
+      ]
+    },
+    {
+      "value": "95.0",
+      "weight": 4,
+      "subValue": [
+        { "value": "95.0.1" },
+        { "value": "95.0.2" },
+        { "value": "95.0.3" },
+        { "value": "95.0.4" },
+        { "value": "95.0.5" }
+      ]
+    },
+    {
+      "value": "88.0",
+      "weight": 1,
+      "subValue": [
+        { "value": "88.0.1" },
+        { "value": "88.0.2" },
+        { "value": "88.0.3" },
+        { "value": "88.0.4" },
+        { "value": "88.0.5" }
+      ]
+    }
   ]
 }

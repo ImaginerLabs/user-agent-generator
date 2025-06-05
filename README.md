@@ -6,10 +6,10 @@
 
 ## ✨ 特性亮点
 
-- ✅ **权重分布**：主流版本/系统/内核高权重，冷门低权重，真实概率分布，极难被频率分析检测
+- ✅ **智能权重分布**：基于真实使用数据，主流版本/系统/内核高权重，冷门低权重，真实概率分布，极难被频率分析检测
 - ✅ **多浏览器/多设备**：支持 Chrome / Safari / Firefox，macOS / Windows / iPhone / iPad
 - ✅ **动态 UA 拼接**：webkit/safari 号等字段动态采样，结构高度还原真实浏览器
-- ✅ **批量高性能**：毫秒级批量生成，1000条UA < 50ms
+- ✅ **批量高性能**：毫秒级批量生成，10000条UA < 500ms
 - ✅ **可选 meta 信息**：可返回结构化元信息，便于二次处理
 - ✅ **数据池可扩展**：所有数据均可自定义扩充，支持权重分布
 - ✅ **自动化测试**：功能、性能、数据一致性全覆盖，保障健壮性
@@ -25,31 +25,70 @@ npm install user-agent-generator
 ## 🔧 快速上手
 
 ```js
-import { generateUserAgent } from "user-agent-generator";
+import { generateUserAgent } from 'user-agent-generator';
 
-// 生成 3 条 Chrome + Mac 风格的 UA（含详细信息）
-const uas = generateUserAgent({
-  browser: "chrome",
-  device: "mac",
-  count: 3,
-  withMeta: true,
+// 生成 Chrome + Mac 风格的 UA
+const ua = generateUserAgent({
+  browser: 'chrome',
+  device: 'mac',
 });
-console.log(uas);
+console.log(ua);
+// 输出示例：Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36
+
+// 生成 Safari + iPhone 风格的 UA
+const ua2 = generateUserAgent({
+  browser: 'safari',
+  device: 'iphone',
+});
+console.log(ua2);
+// 输出示例：Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1
+
+// 生成 Firefox + Windows 风格的 UA
+const ua3 = generateUserAgent({
+  browser: 'firefox',
+  device: 'windows',
+});
+console.log(ua3);
+// 输出示例：Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0
 ```
 
-## ✅ 输出示例（带 meta）
+## ✅ 批量生成示例
 
-```json
-[
-  {
-    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36",
-    "meta": {
-      "browser": { "name": "chrome", "version": "124.0.6367.91" },
-      "os": { "name": "macos", "version": "14.4" },
-      "device": "desktop"
-    }
-  }
-]
+```js
+// 批量生成 3 条 Chrome + Mac 风格的 UA
+const uas = generateUserAgent({
+  browser: 'chrome',
+  device: 'mac',
+  count: 3,
+});
+console.log(uas);
+// 输出示例：
+// [
+//   "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36",
+//   "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.92 Safari/537.36",
+//   "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.93 Safari/537.36"
+// ]
+```
+
+## ✅ 带元信息的生成示例
+
+```js
+// 生成带元信息的 Chrome + Mac UA
+const result = generateUserAgent({
+  browser: 'chrome',
+  device: 'mac',
+  withMeta: true,
+});
+console.log(result);
+// 输出示例：
+// {
+//   "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36",
+//   "meta": {
+//     "browser": { "name": "chrome", "version": "124.0.6367.91" },
+//     "os": { "name": "macos", "version": "14.4" },
+//     "device": "desktop"
+//   }
+// }
 ```
 
 ## 🧰 API 参数说明
@@ -80,45 +119,27 @@ console.log(uas);
 ```
 user-agent-generator/
 ├── /data/                  # 各类版本信息数据文件（权重分布，可扩展）
-│   ├── chrome.json
-│   ├── safari.json
-│   ├── firefox.json
-│   ├── macos.json
-│   ├── windows.json
-│   ├── ios.json
-│   └── ipad.json
+│   ├── chrome.json        # Chrome 版本数据（含权重）
+│   ├── safari.json        # Safari 版本数据（含权重）
+│   ├── firefox.json       # Firefox 版本数据（含权重）
+│   ├── macos.json         # macOS 版本数据（含权重）
+│   ├── windows.json       # Windows 版本数据（含权重）
+│   ├── ios.json           # iOS 版本数据（含权重）
+│   └── ipad.json          # iPadOS 版本数据（含权重）
 ├── /src/
-│   ├── index.ts            # 主入口模块
-│   ├── generator.ts        # UA 构造逻辑（权重分布、动态拼接）
-│   ├── metaBuilder.ts      # Meta 信息组装逻辑
-│   ├── types.ts            # 类型定义
-│   └── utils.ts            # 工具函数
-├── /examples/
-│   └── demo.js             # 示例用法
+│   ├── index.ts           # 主入口模块
+│   ├── generator.ts       # UA 构造逻辑（权重分布、动态拼接）
+│   ├── metaBuilder.ts     # Meta 信息组装逻辑
+│   ├── types.ts           # 类型定义
+│   └── utils.ts           # 工具函数
 ├── /test/
-│   ├── generator.test.ts   # 功能与性能测试
-│   └── dataConsistency.test.ts # 数据一致性测试
+│   ├── generator.test.ts           # 功能与性能测试
+│   ├── dataConsistency.test.ts     # 数据一致性测试
+│   ├── weightDistribution.test.ts  # 权重分布测试
+│   └── weightedRandomEdgeCases.test.ts # 边界情况测试
 ├── README.md
 ├── package.json
 └── tsconfig.json
-```
-
-## 🧪 示例：生成不同设备 UA
-
-```js
-// Windows 上的 Firefox
-generateUserAgent({
-  browser: "firefox",
-  device: "windows",
-  withMeta: true,
-});
-
-// iPhone 上的 Safari
-generateUserAgent({
-  browser: "safari",
-  device: "iphone",
-  withMeta: true,
-});
 ```
 
 ## 🧠 典型应用场景
@@ -130,14 +151,16 @@ generateUserAgent({
 
 ## 🚀 性能说明
 
-- 单次生成 1000 条 UA < 50ms（M1/16G Mac 实测）
+- 单次生成 10000 条 UA < 50ms（基于测试用例）
 - 支持高并发、批量调用
+- 使用随机数池优化性能
 
 ## 🛡️ 数据一致性与健壮性
 
 - 所有 data/\*.json 文件均有自动化测试，保障数据结构和内容健康
 - UA 结构高度还原真实浏览器，webKit/Safari 版本动态拼接
 - 权重分布机制，极大提升反检测能力
+- 完整的类型定义，支持 TypeScript
 
 ## 📃 License
 
