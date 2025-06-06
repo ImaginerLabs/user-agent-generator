@@ -118,10 +118,10 @@ describe('generateUserAgent', () => {
     }
   });
 
-  // Performance test: Generate 1000 user agents
-  // 性能测试：批量生成1000条用户代理
-  it('performance test for generating 1000 UAs', () => {
-    const count = 1000;
+  // Performance test: Generate 10000 user agents
+  // 性能测试：批量生成10000条用户代理
+  it('performance test for generating 10000 UAs', () => {
+    const count = 10000;
     const start = Date.now();
     const uas = generateUserAgent({ count });
     const duration = Date.now() - start;

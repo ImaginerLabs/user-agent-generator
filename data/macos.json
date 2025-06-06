@@ -65,7 +65,7 @@
       ]
     },
     {
-      "value": "10.15",
+      "value": "10",
       "weight": 2,
       "subValue": [
         { "value": "10.15.7" },
