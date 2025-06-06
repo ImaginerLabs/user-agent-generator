@@ -2,7 +2,7 @@
   "versions": [
     {
       "value": "126.0",
-      "weight": 40,
+      "weight": 30,
       "subValue": [
         { "value": "126.0.1" },
         { "value": "126.0.2" },
@@ -13,7 +13,7 @@
     },
     {
       "value": "125.0",
-      "weight": 30,
+      "weight": 25,
       "subValue": [
         { "value": "125.0.1" },
         { "value": "125.0.2" },
@@ -23,8 +23,30 @@
       ]
     },
     {
-      "value": "120.0",
+      "value": "124.0",
+      "weight": 20,
+      "subValue": [
+        { "value": "124.0.1" },
+        { "value": "124.0.2" },
+        { "value": "124.0.3" },
+        { "value": "124.0.4" },
+        { "value": "124.0.5" }
+      ]
+    },
+    {
+      "value": "123.0",
       "weight": 15,
+      "subValue": [
+        { "value": "123.0.1" },
+        { "value": "123.0.2" },
+        { "value": "123.0.3" },
+        { "value": "123.0.4" },
+        { "value": "123.0.5" }
+      ]
+    },
+    {
+      "value": "120.0",
+      "weight": 5,
       "subValue": [
         { "value": "120.0.1" },
         { "value": "120.0.2" },
@@ -35,7 +57,7 @@
     },
     {
       "value": "110.0",
-      "weight": 10,
+      "weight": 3,
       "subValue": [
         { "value": "110.0.1" },
         { "value": "110.0.2" },
@@ -46,7 +68,7 @@
     },
     {
       "value": "95.0",
-      "weight": 4,
+      "weight": 1,
       "subValue": [
         { "value": "95.0.1" },
         { "value": "95.0.2" },

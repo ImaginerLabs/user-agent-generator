@@ -1,9 +1,9 @@
 {
   "versions": [
-    { "value": "11", "weight": 50 },
-    { "value": "10", "weight": 30 },
-    { "value": "8.1", "weight": 5 },
+    { "value": "11", "weight": 45 },
+    { "value": "10", "weight": 40 },
+    { "value": "8.1", "weight": 8 },
     { "value": "8", "weight": 5 },
-    { "value": "7", "weight": 10 }
+    { "value": "7", "weight": 2 }
   ]
 }

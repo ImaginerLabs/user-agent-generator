@@ -1,43 +1,69 @@
-// 浏览器类型
-export type BrowserType = 'chrome' | 'safari' | 'firefox'; // 支持的浏览器
+/**
+ * Browser type definitions
+ * 浏览器类型定义
+ */
+export type BrowserType = 'chrome' | 'safari' | 'firefox'; // Supported browsers / 支持的浏览器
 
-// 设备类型
-export type DeviceType = 'mac' | 'windows' | 'iphone' | 'ipad'; // 支持的设备
+/**
+ * Device type definitions
+ * 设备类型定义
+ */
+export type DeviceType = 'mac' | 'windows' | 'iphone' | 'ipad'; // Supported devices / 支持的设备
 
-// 操作系统类型
-export type OSType = 'macos' | 'windows' | 'ios' | 'ipados'; // 支持的操作系统
+/**
+ * Operating system type definitions
+ * 操作系统类型定义
+ */
+export type OSType = 'macos' | 'windows' | 'ios' | 'ipados'; // Supported operating systems / 支持的操作系统
 
-// 浏览器元信息
-// 如 { name: 'chrome', version: '114.0.5735.133' }
+/**
+ * Browser metadata structure
+ * 浏览器元数据结构
+ *
+ * Example / 示例: { name: 'chrome', version: '114.0.5735.133' }
+ */
 type BrowserMeta = {
-  name: BrowserType;
-  version: string;
+  name: BrowserType; // Browser name / 浏览器名称
+  version: string; // Browser version / 浏览器版本
 };
 
-// 操作系统元信息
-// 如 { name: 'macos', version: '12.6' }
+/**
+ * Operating system metadata structure
+ * 操作系统元数据结构
+ *
+ * Example / 示例: { name: 'macos', version: '12.6' }
+ */
 type OSMeta = {
-  name: OSType;
-  version: string;
+  name: OSType; // OS name / 操作系统名称
+  version: string; // OS version / 操作系统版本
 };
 
-// UA 元信息结构
+/**
+ * User Agent metadata structure
+ * UA 元数据结构
+ */
 export interface UserAgentMeta {
-  browser: BrowserMeta; // 浏览器信息
-  os: OSMeta; // 操作系统信息
-  device: 'desktop' | 'mobile' | 'tablet'; // 设备类型
+  browser: BrowserMeta; // Browser information / 浏览器信息
+  os: OSMeta; // Operating system information / 操作系统信息
+  device: 'desktop' | 'mobile' | 'tablet'; // Device type / 设备类型
 }
 
-// generateUserAgent 参数
+/**
+ * Options for generating User Agent strings
+ * 生成 User Agent 字符串的选项
+ */
 export interface GenerateUserAgentOptions {
-  browser?: BrowserType; // 指定浏览器
-  device?: DeviceType; // 指定设备
-  count?: number; // 生成数量
-  withMeta?: boolean; // 是否返回 meta 信息
+  browser?: BrowserType; // Target browser / 目标浏览器
+  device?: DeviceType; // Target device / 目标设备
+  count?: number; // Number of UAs to generate / 要生成的 UA 数量
+  withMeta?: boolean; // Whether to include metadata / 是否包含元数据
 }
 
-// UA 返回结构（带 meta）
+/**
+ * User Agent string with metadata
+ * 包含元数据的 User Agent 字符串
+ */
 export interface UserAgentWithMeta {
-  ua: string; // UA 字符串
-  meta: UserAgentMeta; // 结构化 meta 信息
+  ua: string; // User Agent string / UA 字符串
+  meta: UserAgentMeta; // Structured metadata / 结构化元数据
 }
