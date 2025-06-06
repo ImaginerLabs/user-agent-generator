@@ -1,25 +1,56 @@
 {
-  "name": "user-agent-generator",
+  "name": "@imaginerlabs/user-agent-generator",
   "version": "1.0.0",
-  "description": "高性能、可配置、批量生成的 User-Agent 伪装库，支持多浏览器、多设备组合，并可返回详细元信息。适用于爬虫、自动化测试、代理池等多场景。",
+  "description": "High-performance, configurable, batch-generating User-Agent spoofing library. Supports multiple browsers, devices, and returns detailed meta information. Perfect for web scraping, automated testing, proxy pools and more.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "data",
+    "README.md",
+    "README_CN.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "start": "ts-node src/index.ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
     "user-agent",
     "ua",
     "generator",
-    "爬虫",
-    "反爬",
-    "自动化测试"
+    "web-scraping",
+    "anti-detection",
+    "automation",
+    "testing",
+    "browser",
+    "chrome",
+    "safari",
+    "firefox",
+    "webkit",
+    "spoofing",
+    "proxy",
+    "crawling"
   ],
-  "author": "",
+  "author": "ImaginerLabs",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ImaginerLabs/user-agent-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ImaginerLabs/user-agent-generator/issues"
+  },
+  "homepage": "https://github.com/ImaginerLabs/user-agent-generator#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.27",
