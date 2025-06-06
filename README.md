@@ -25,7 +25,7 @@
 ## 📦 Installation
 
 ```bash
-npm install user-agent-generator
+npm i @imaginerlabs/user-agent-generator
 ```
 
 ## 🔧 Quick Start

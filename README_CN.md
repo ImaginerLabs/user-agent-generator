@@ -25,7 +25,7 @@
 ## 📦 安装
 
 ```bash
-npm install user-agent-generator
+npm i @imaginerlabs/user-agent-generator
 ```
 
 ## 🔧 快速上手
