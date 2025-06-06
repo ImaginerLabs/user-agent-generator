@@ -1,68 +1,74 @@
+<div align="center">
+
+[中文文档](./README_CN.md) | [English](./README.md)
+
+</div>
+
 # 🎭 user-agent-generator
 
-> 🚀 高性能、权重分布、批量生成的 User-Agent 伪装库。支持多浏览器、多设备、真实概率分布，动态拼接 webkit/safari 号，极致防反爬。适用于爬虫、自动化测试、代理池等多场景。
+> 🚀 High-performance, weighted distribution, batch generation User-Agent spoofing library. Supports multiple browsers, devices, realistic probability distribution, dynamic webkit/safari number concatenation, ultimate anti-crawling protection. Perfect for web scraping, automated testing, proxy pools and more.
 
 ---
 
-## ✨ 特性亮点
+## ✨ Key Features
 
-- ✅ **智能权重分布**：基于真实使用数据，主流版本/系统/内核高权重，冷门低权重，真实概率分布，极难被频率分析检测
-- ✅ **多浏览器/多设备**：支持 Chrome / Safari / Firefox，macOS / Windows / iPhone / iPad
-- ✅ **动态 UA 拼接**：webkit/safari 号等字段动态采样，结构高度还原真实浏览器
-- ✅ **批量高性能**：毫秒级批量生成，10000条UA < 100ms
-- ✅ **可选 meta 信息**：可返回结构化元信息，便于二次处理
-- ✅ **数据池可扩展**：所有数据均可自定义扩充，支持权重分布
-- ✅ **自动化测试**：功能、性能、数据一致性全覆盖，保障健壮性
+- ✅ **Smart Weighted Distribution**: Based on real usage data, mainstream versions/systems/kernels have high weights, niche ones have low weights, realistic probability distribution, extremely difficult to detect by frequency analysis
+- ✅ **Multi-browser/Multi-device**: Supports Chrome / Safari / Firefox, macOS / Windows / iPhone / iPad
+- ✅ **Dynamic UA Assembly**: webkit/safari numbers and other fields are dynamically sampled, highly realistic browser structure restoration
+- ✅ **High-performance Batch Generation**: Millisecond-level batch generation, 10000 UAs < 100ms
+- ✅ **Optional Meta Information**: Can return structured meta information for secondary processing
+- ✅ **Extensible Data Pool**: All data can be customized and extended, supports weighted distribution
+- ✅ **Automated Testing**: Full coverage of functionality, performance, and data consistency tests, ensuring robustness
 
 ---
 
-## 📦 安装
+## 📦 Installation
 
 ```bash
 npm install user-agent-generator
 ```
 
-## 🔧 快速上手
+## 🔧 Quick Start
 
 ```js
 import { generateUserAgent } from 'user-agent-generator';
 
-// 生成 Chrome + Mac 风格的 UA
+// Generate Chrome + Mac style UA
 const ua = generateUserAgent({
   browser: 'chrome',
   device: 'mac',
 });
 console.log(ua);
-// 输出示例：Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36
+// Example output: Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36
 
-// 生成 Safari + iPhone 风格的 UA
+// Generate Safari + iPhone style UA
 const ua2 = generateUserAgent({
   browser: 'safari',
   device: 'iphone',
 });
 console.log(ua2);
-// 输出示例：Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1
+// Example output: Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1
 
-// 生成 Firefox + Windows 风格的 UA
+// Generate Firefox + Windows style UA
 const ua3 = generateUserAgent({
   browser: 'firefox',
   device: 'windows',
 });
 console.log(ua3);
-// 输出示例：Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0
+// Example output: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0
 ```
 
-## ✅ 批量生成示例
+## ✅ Batch Generation Example
 
 ```js
-// 批量生成 3 条 Chrome + Mac 风格的 UA
+// Generate 3 Chrome + Mac style UAs in batch
 const uas = generateUserAgent({
   browser: 'chrome',
   device: 'mac',
   count: 3,
 });
 console.log(uas);
-// 输出示例：
+// Example output:
 // [
 //   "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36",
 //   "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.92 Safari/537.36",
@@ -70,17 +76,17 @@ console.log(uas);
 // ]
 ```
 
-## ✅ 带元信息的生成示例
+## ✅ Generation with Meta Information Example
 
 ```js
-// 生成带元信息的 Chrome + Mac UA
+// Generate Chrome + Mac UA with meta information
 const result = generateUserAgent({
   browser: 'chrome',
   device: 'mac',
   withMeta: true,
 });
 console.log(result);
-// 输出示例：
+// Example output:
 // {
 //   "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.91 Safari/537.36",
 //   "meta": {
@@ -91,111 +97,111 @@ console.log(result);
 // }
 ```
 
-## 🧰 API 参数说明
+## 🧰 API Parameters
 
-| 参数名     | 类型                                             | 是否必填 | 默认值  | 说明                                 |
-| ---------- | ------------------------------------------------ | -------- | ------- | ------------------------------------ |
-| `browser`  | `'chrome'` ｜ `'safari'` ｜ `'firefox'`          | 否       | 随机    | 指定浏览器类型                       |
-| `device`   | `'mac'` ｜ `'windows'` ｜ `'iphone'` ｜ `'ipad'` | 否       | 随机    | 指定设备类型                         |
-| `count`    | `number`                                         | 否       | `1`     | 要生成多少条 UA                      |
-| `withMeta` | `boolean`                                        | 否       | `false` | 是否返回版本号等元信息（结构化数据） |
+| Parameter  | Type                                             | Required | Default | Description                                     |
+| ---------- | ------------------------------------------------ | -------- | ------- | ----------------------------------------------- |
+| `browser`  | `'chrome'` ｜ `'safari'` ｜ `'firefox'`          | No       | Random  | Specify browser type                            |
+| `device`   | `'mac'` ｜ `'windows'` ｜ `'iphone'` ｜ `'ipad'` | No       | Random  | Specify device type                             |
+| `count`    | `number`                                         | No       | `1`     | Number of UAs to generate                       |
+| `withMeta` | `boolean`                                        | No       | `false` | Whether to return version numbers and meta info |
 
-## 🔄 返回值类型说明
+## 🔄 Return Types
 
-| 场景             | 返回类型              | 说明                           |
-| ---------------- | --------------------- | ------------------------------ |
-| 单个UA，无元数据 | `string`              | 直接返回UA字符串               |
-| 单个UA，带元数据 | `UserAgentWithMeta`   | 返回包含ua和meta字段的对象     |
-| 多个UA，无元数据 | `string[]`            | 返回UA字符串数组               |
-| 多个UA，带元数据 | `UserAgentWithMeta[]` | 返回包含ua和meta字段的对象数组 |
-| count=0          | `[]`                  | 返回空数组                     |
+| Scenario                | Return Type           | Description                               |
+| ----------------------- | --------------------- | ----------------------------------------- |
+| Single UA, no meta      | `string`              | Returns UA string directly                |
+| Single UA, with meta    | `UserAgentWithMeta`   | Returns object with ua and meta fields    |
+| Multiple UAs, no meta   | `string[]`            | Returns array of UA strings               |
+| Multiple UAs, with meta | `UserAgentWithMeta[]` | Returns array of objects with ua and meta |
+| count=0                 | `[]`                  | Returns empty array                       |
 
-### UserAgentWithMeta 结构
+### UserAgentWithMeta Structure
 
 ```typescript
 interface UserAgentWithMeta {
-  ua: string; // User Agent 字符串
+  ua: string; // User Agent string
   meta: {
     browser: {
       name: BrowserType; // 'chrome' | 'safari' | 'firefox'
-      version: string; // 浏览器版本号
+      version: string; // Browser version number
     };
     os: {
       name: OSType; // 'macos' | 'windows' | 'ios' | 'ipados'
-      version: string; // 操作系统版本号
+      version: string; // Operating system version number
     };
-    device: 'desktop' | 'mobile' | 'tablet'; // 设备类型
+    device: 'desktop' | 'mobile' | 'tablet'; // Device type
   };
 }
 ```
 
-## 🔍 支持的版本范围与分布
+## 🔍 Supported Version Ranges & Distribution
 
-| 分类     | 名称         | 版本范围          | 分布说明                                                  |
-| -------- | ------------ | ----------------- | --------------------------------------------------------- |
-| 浏览器   | Chrome       | `94 ~ 124`        | 主流高权重（124权重25，123权重20），冷门低权重（94权重1） |
-|          | Safari       | `13 ~ 17`         | 主流高权重，冷门低权重                                    |
-|          | Firefox      | `88 ~ 126`        | 主流高权重，冷门低权重                                    |
-| 操作系统 | macOS        | `10.15 ~ 14.4`    | 主流高权重，冷门低权重                                    |
-|          | Windows      | `Windows 7 ~ 11`  | 主流高权重，冷门低权重                                    |
-|          | iOS (iPhone) | `13 ~ 17`         | 主流高权重，冷门低权重                                    |
-|          | iPadOS       | `13 ~ 17`         | 主流高权重，冷门低权重                                    |
-| UA 细节  | WebKit版本   | `537.34 ~ 537.36` | 动态子版本采样，高度还原真实浏览器                        |
-|          | Safari版本   | `537.34 ~ 537.36` | 动态子版本采样，高度还原真实浏览器                        |
+| Category         | Name           | Version Range     | Distribution Description                                                              |
+| ---------------- | -------------- | ----------------- | ------------------------------------------------------------------------------------- |
+| Browser          | Chrome         | `94 ~ 124`        | Mainstream high weight (124 weight 25, 123 weight 20), niche low weight (94 weight 1) |
+|                  | Safari         | `13 ~ 17`         | Mainstream high weight, niche low weight                                              |
+|                  | Firefox        | `88 ~ 126`        | Mainstream high weight, niche low weight                                              |
+| Operating System | macOS          | `10.15 ~ 14.4`    | Mainstream high weight, niche low weight                                              |
+|                  | Windows        | `Windows 7 ~ 11`  | Mainstream high weight, niche low weight                                              |
+|                  | iOS (iPhone)   | `13 ~ 17`         | Mainstream high weight, niche low weight                                              |
+|                  | iPadOS         | `13 ~ 17`         | Mainstream high weight, niche low weight                                              |
+| UA Details       | WebKit Version | `537.34 ~ 537.36` | Dynamic sub-version sampling, highly realistic browser restoration                    |
+|                  | Safari Version | `537.34 ~ 537.36` | Dynamic sub-version sampling, highly realistic browser restoration                    |
 
-## 📁 项目目录结构
+## 📁 Project Structure
 
 ```
 user-agent-generator/
-├── /data/                  # 各类版本信息数据文件（权重分布，可扩展）
-│   ├── chrome.json        # Chrome 版本数据（含权重）
-│   ├── safari.json        # Safari 版本数据（含权重）
-│   ├── firefox.json       # Firefox 版本数据（含权重）
-│   ├── macos.json         # macOS 版本数据（含权重）
-│   ├── windows.json       # Windows 版本数据（含权重）
-│   ├── ios.json           # iOS 版本数据（含权重）
-│   └── ipad.json          # iPadOS 版本数据（含权重）
+├── /data/                  # Various version information data files (weighted distribution, extensible)
+│   ├── chrome.json        # Chrome version data (with weights)
+│   ├── safari.json        # Safari version data (with weights)
+│   ├── firefox.json       # Firefox version data (with weights)
+│   ├── macos.json         # macOS version data (with weights)
+│   ├── windows.json       # Windows version data (with weights)
+│   ├── ios.json           # iOS version data (with weights)
+│   └── ipad.json          # iPadOS version data (with weights)
 ├── /src/
-│   ├── index.ts           # 主入口模块
-│   ├── generator.ts       # UA 构造逻辑（权重分布、动态拼接）
-│   ├── metaBuilder.ts     # Meta 信息组装逻辑
-│   ├── types.ts           # 类型定义
-│   └── utils.ts           # 工具函数
+│   ├── index.ts           # Main entry module
+│   ├── generator.ts       # UA construction logic (weighted distribution, dynamic assembly)
+│   ├── metaBuilder.ts     # Meta information assembly logic
+│   ├── types.ts           # Type definitions
+│   └── utils.ts           # Utility functions
 ├── /test/
-│   ├── generator.test.ts                # 功能与性能测试（包含10000条UA生成性能测试）
-│   ├── dataConsistency.test.ts          # 数据一致性测试
-│   ├── weightDistribution.test.ts       # 权重分布测试
-│   ├── weightedRandomEdgeCases.test.ts  # 边界情况测试
-│   └── errorHandling.test.ts            # 错误处理测试
+│   ├── generator.test.ts                # Functionality and performance tests (includes 10000 UA generation performance test)
+│   ├── dataConsistency.test.ts          # Data consistency tests
+│   ├── weightDistribution.test.ts       # Weight distribution tests
+│   ├── weightedRandomEdgeCases.test.ts  # Edge case tests
+│   └── errorHandling.test.ts            # Error handling tests
 ├── README.md
 ├── package.json
 └── tsconfig.json
 ```
 
-## 🧠 典型应用场景
+## 🧠 Typical Use Cases
 
-- 🕷️ Web 爬虫 / 防反爬 User-Agent 池构建
-- 🤖 自动化测试（Selenium / Puppeteer）
-- 🔐 安全测试、模拟访问
-- 🛰️ 构建代理服务器或中间件
-- 📊 数据采集与分析
-- 🎯 A/B测试与用户行为模拟
+- 🕷️ Web scraping / Anti-crawling User-Agent pool construction
+- 🤖 Automated testing (Selenium / Puppeteer)
+- 🔐 Security testing, simulated access
+- 🛰️ Building proxy servers or middleware
+- 📊 Data collection and analysis
+- 🎯 A/B testing and user behavior simulation
 
-## 🚀 性能说明
+## 🚀 Performance
 
-- 单次生成 10000 条 UA < 100ms（基于测试用例）
-- 支持高并发、批量调用
-- 使用随机数池优化性能，预生成1000个随机数避免频繁调用Math.random()
-- 数据文件缓存机制，避免重复读取文件
+- Single generation of 10000 UAs < 100ms (based on test cases)
+- Supports high concurrency and batch calls
+- Uses random number pool optimization for performance, pre-generates 1000 random numbers to avoid frequent Math.random() calls
+- Data file caching mechanism to avoid repeated file reads
 
-## 🛡️ 数据一致性与健壮性
+## 🛡️ Data Consistency & Robustness
 
-- 所有 data/\*.json 文件均有自动化测试，保障数据结构和内容健康
-- UA 结构高度还原真实浏览器，WebKit/Safari 版本动态拼接
-- 权重分布机制，极大提升反检测能力，支持带子值的权重版本选择
-- 完整的类型定义，支持 TypeScript
-- 边界情况处理：count=0返回空数组，错误处理机制完善
-- 5个测试套件全覆盖：功能测试、性能测试、数据一致性、权重分布、错误处理
+- All data/\*.json files have automated tests to ensure data structure and content health
+- UA structure highly restores real browsers, WebKit/Safari versions dynamically assembled
+- Weighted distribution mechanism greatly improves anti-detection capability, supports weighted version selection with sub-values
+- Complete type definitions, supports TypeScript
+- Edge case handling: count=0 returns empty array, comprehensive error handling mechanism
+- 5 test suites with full coverage: functionality tests, performance tests, data consistency, weight distribution, error handling
 
 ## 📃 License
 
