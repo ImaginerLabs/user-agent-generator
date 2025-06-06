@@ -31,7 +31,7 @@ npm i @imaginerlabs/user-agent-generator
 ## 🔧 Quick Start
 
 ```js
-import { generateUserAgent } from 'user-agent-generator';
+import { generateUserAgent } from '@imaginerlabs/user-agent-generator';
 
 // Generate Chrome + Mac style UA
 const ua = generateUserAgent({
@@ -61,6 +61,8 @@ console.log(ua3);
 ## ✅ Batch Generation Example
 
 ```js
+import { generateUserAgent } from '@imaginerlabs/user-agent-generator';
+
 // Generate 3 Chrome + Mac style UAs in batch
 const uas = generateUserAgent({
   browser: 'chrome',
@@ -79,6 +81,8 @@ console.log(uas);
 ## ✅ Generation with Meta Information Example
 
 ```js
+import { generateUserAgent } from '@imaginerlabs/user-agent-generator';
+
 // Generate Chrome + Mac UA with meta information
 const result = generateUserAgent({
   browser: 'chrome',

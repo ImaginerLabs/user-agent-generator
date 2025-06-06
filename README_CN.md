@@ -31,7 +31,7 @@ npm i @imaginerlabs/user-agent-generator
 ## 🔧 快速上手
 
 ```js
-import { generateUserAgent } from 'user-agent-generator';
+import { generateUserAgent } from '@imaginerlabs/user-agent-generator';
 
 // 生成 Chrome + Mac 风格的 UA
 const ua = generateUserAgent({
@@ -61,6 +61,8 @@ console.log(ua3);
 ## ✅ 批量生成示例
 
 ```js
+import { generateUserAgent } from '@imaginerlabs/user-agent-generator';
+
 // 批量生成 3 条 Chrome + Mac 风格的 UA
 const uas = generateUserAgent({
   browser: 'chrome',
@@ -79,6 +81,8 @@ console.log(uas);
 ## ✅ 带元信息的生成示例
 
 ```js
+import { generateUserAgent } from '@imaginerlabs/user-agent-generator';
+
 // 生成带元信息的 Chrome + Mac UA
 const result = generateUserAgent({
   browser: 'chrome',
