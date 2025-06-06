@@ -8,18 +8,15 @@
  */
 
 import { BrowserType, DeviceType, GenerateUserAgentOptions, UserAgentWithMeta } from './types';
-import {
-  readVersions,
-  pickRandom,
-  pickWeightedRandom,
-  pickWeightedVersionWithSubValue,
-} from './utils';
+import { pickRandom, pickWeightedVersionWithSubValue } from './utils';
 import { buildMeta } from './metaBuilder';
 
-// 缓存所有数据文件的内容 / Cache all data file contents
+// Cache all data file contents
+// 缓存所有数据文件的内容
 const dataCache: Record<string, any> = {};
 
-// 预生成一批随机数 / Pre-generate a batch of random numbers
+// Pre-generate a batch of random numbers
+// 预生成一批随机数
 const randomPool: number[] = [];
 const POOL_SIZE = 1000;
 for (let i = 0; i < POOL_SIZE; i++) {
@@ -27,11 +24,17 @@ for (let i = 0; i < POOL_SIZE; i++) {
 }
 let randomIndex = 0;
 
-// 获取随机数的函数 / Function to get random number
+/**
+ * Function to get random number
+ * 获取随机数的函数
+ *
+ * @returns Random number / 随机数
+ */
 function getRandom(): number {
   if (randomIndex >= POOL_SIZE) {
     randomIndex = 0;
-    // 重新填充随机数池 / Refill random number pool
+    // Refill random number pool
+    // 重新填充随机数池
     for (let i = 0; i < POOL_SIZE; i++) {
       randomPool[i] = Math.random();
     }
@@ -62,15 +65,24 @@ const deviceUAInfo = {
   mac: {
     // Generate macOS UA string fragment
     // 生成 macOS UA 字符串片段
-    osString: (osVersion: string) => `Macintosh; Intel Mac OS X ${osVersion.replace('.', '_')}`,
+    osString: (osVersion: string) => `Macintosh; Intel Mac OS X ${osVersion.replace(/\./g, '_')}`,
     device: 'desktop',
     os: 'macos',
   },
   windows: {
     // Generate Windows UA string fragment
     // 生成 Windows UA 字符串片段
-    osString: (osVersion: string) =>
-      `Windows NT ${osVersion === '7' ? '6.1' : osVersion === '8' ? '6.2' : osVersion === '8.1' ? '6.3' : osVersion === '10' ? '10.0' : '10.0'}; Win64; x64`,
+    osString: (osVersion: string) => {
+      const versionMap: Record<string, string> = {
+        '7': '6.1',
+        '8': '6.2',
+        '8.1': '6.3',
+        '10': '10.0',
+        '11': '10.0',
+      };
+      const ntVersion = versionMap[osVersion] || '10.0';
+      return `Windows NT ${ntVersion}; Win64; x64`;
+    },
     device: 'desktop',
     os: 'windows',
   },
@@ -78,113 +90,99 @@ const deviceUAInfo = {
     // Generate iPhone UA string fragment
     // 生成 iPhone UA 字符串片段
     osString: (osVersion: string) =>
-      `iPhone; CPU iPhone OS ${osVersion.replace('.', '_')} like Mac OS X`,
+      `iPhone; CPU iPhone OS ${osVersion.replace(/\./g, '_')} like Mac OS X`,
     device: 'mobile',
     os: 'ios',
   },
   ipad: {
     // Generate iPad UA string fragment
     // 生成 iPad UA 字符串片段
-    osString: (osVersion: string) => `iPad; CPU OS ${osVersion.replace('.', '_')} like Mac OS X`,
+    osString: (osVersion: string) => `iPad; CPU OS ${osVersion.replace(/\./g, '_')} like Mac OS X`,
     device: 'tablet',
     os: 'ipados',
   },
 };
 
-// UA string templates for different browsers
-// 不同浏览器的 UA 字符串模板
-const uaTemplates = {
-  chrome: (osString: string, version: string) =>
-    `Mozilla/5.0 (${osString}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${version} Safari/537.36`,
-  safari: (osString: string, version: string) =>
-    `Mozilla/5.0 (${osString}) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/${version} Safari/605.1.15`,
-  firefox: (osString: string, version: string) =>
-    `Mozilla/5.0 (${osString}; rv:${version}) Gecko/20100101 Firefox/${version}`,
-};
-
-// 获取缓存的数据 / Get cached data
+/**
+ * Get cached data
+ * 获取缓存的数据
+ *
+ * @param file Filename (e.g., chrome.json) / 文件名（如 chrome.json）
+ * @returns Cached data object / 缓存的数据对象
+ */
 function getCachedData(file: string): any {
   if (!dataCache[file]) {
-    dataCache[file] = require(`../data/${file}`);
+    try {
+      dataCache[file] = require(`../data/${file}`);
+    } catch (error) {
+      throw new Error(`Failed to load data file: ${file}. Error: ${error}`);
+    }
   }
   return dataCache[file];
+}
+
+/**
+ * Select version from data array (supports both string and weighted object formats)
+ * 从数据数组中选择版本（支持字符串和权重对象格式）
+ *
+ * @param versions Version array / 版本数组
+ * @param random Random number / 随机数
+ * @returns Selected version / 选中的版本
+ */
+function selectVersion(versions: any[], random: number = getRandom()): string {
+  if (!versions || versions.length === 0) {
+    throw new Error('Versions array is empty or undefined');
+  }
+
+  // Check if it's a weighted version with subValue
+  // 检查是否为带子值的权重版本
+  if (versions[0] && typeof versions[0] === 'object' && 'subValue' in versions[0]) {
+    return pickWeightedVersionWithSubValue(versions, random);
+  } else {
+    return pickRandom(versions as string[], random);
+  }
 }
 
 /**
  * Generate User-Agent string or structured object
  * 生成 User-Agent 字符串或结构化对象
  *
- * @param options Generation parameters (browser, device, count, withMeta)
- * @param options 生成参数（浏览器、设备、数量、是否包含元数据）
- * @returns Single UA string/object, or array of UAs
- * @returns 单个 UA 字符串/对象，或 UA 数组
+ * @param options Generation parameters (browser, device, count, withMeta) / 生成参数（浏览器、设备、数量、是否包含元数据）
+ * @returns Single UA string/object, or array of UAs / 单个 UA 字符串/对象，或 UA 数组
  */
 export function generateUserAgent(
   options: GenerateUserAgentOptions = {},
 ): string | UserAgentWithMeta | (string | UserAgentWithMeta)[] {
-  const count = options.count || 1;
+  const count = options.count ?? 1;
+
+  // Handle edge case: count = 0
+  // 处理边界情况：count = 0
+  if (count === 0) {
+    return [];
+  }
   const browser: BrowserType = options.browser || pickRandom(['chrome', 'safari', 'firefox']);
   const device: DeviceType = options.device || pickRandom(['mac', 'windows', 'iphone', 'ipad']);
 
   const result: (string | UserAgentWithMeta)[] = [];
+
   for (let i = 0; i < count; i++) {
     let ua = '';
     let meta: UserAgentWithMeta['meta'] | undefined;
     const osInfo = deviceUAInfo[device];
 
-    // 使用缓存的数据 / Use cached data
+    // Use cached data
+    // 使用缓存的数据
     const osData = getCachedData(osDataFile[device]);
-    let osVersion: string;
-    if (
-      osData.versions[0] &&
-      typeof osData.versions[0] === 'object' &&
-      'subValue' in osData.versions[0]
-    ) {
-      osVersion = pickWeightedVersionWithSubValue(osData.versions, getRandom());
-    } else {
-      osVersion = pickRandom(osData.versions as string[], getRandom());
-    }
-
+    const osVersion = selectVersion(osData.versions);
     const osString = osInfo.osString(osVersion);
     let browserVersion = '';
 
     switch (browser) {
       case 'chrome': {
         const chromeData = getCachedData(browserDataFile.chrome);
-        let chromeVersion: string;
-        if (
-          chromeData.versions[0] &&
-          typeof chromeData.versions[0] === 'object' &&
-          'subValue' in chromeData.versions[0]
-        ) {
-          chromeVersion = pickWeightedVersionWithSubValue(chromeData.versions, getRandom());
-        } else {
-          chromeVersion = pickRandom(chromeData.versions as string[], getRandom());
-        }
-
-        let webkitVersion: string;
-        if (
-          chromeData.webkitVersions &&
-          chromeData.webkitVersions[0] &&
-          typeof chromeData.webkitVersions[0] === 'object' &&
-          'subValue' in chromeData.webkitVersions[0]
-        ) {
-          webkitVersion = pickWeightedVersionWithSubValue(chromeData.webkitVersions, getRandom());
-        } else {
-          webkitVersion = pickRandom(chromeData.webkitVersions as string[], getRandom());
-        }
-
-        let safariVersion: string;
-        if (
-          chromeData.safariVersions &&
-          chromeData.safariVersions[0] &&
-          typeof chromeData.safariVersions[0] === 'object' &&
-          'subValue' in chromeData.safariVersions[0]
-        ) {
-          safariVersion = pickWeightedVersionWithSubValue(chromeData.safariVersions, getRandom());
-        } else {
-          safariVersion = pickRandom(chromeData.safariVersions as string[], getRandom());
-        }
+        const chromeVersion = selectVersion(chromeData.versions);
+        const webkitVersion = selectVersion(chromeData.webkitVersions);
+        const safariVersion = selectVersion(chromeData.safariVersions);
 
         browserVersion = chromeVersion;
         ua = `Mozilla/5.0 (${osString}) AppleWebKit/${webkitVersion} (KHTML, like Gecko) Chrome/${browserVersion} Safari/${safariVersion}`;
@@ -192,50 +190,21 @@ export function generateUserAgent(
       }
       case 'safari': {
         const safariData = getCachedData(browserDataFile.safari);
-        let safariVersion: string;
-        if (
-          safariData.versions[0] &&
-          typeof safariData.versions[0] === 'object' &&
-          'subValue' in safariData.versions[0]
-        ) {
-          browserVersion = pickWeightedVersionWithSubValue(safariData.versions, getRandom());
-        } else {
-          browserVersion = pickRandom(safariData.versions as string[], getRandom());
-        }
-
-        let webkitVersion: string;
-        if (
-          safariData.webkitVersions &&
-          safariData.webkitVersions[0] &&
-          typeof safariData.webkitVersions[0] === 'object' &&
-          'subValue' in safariData.webkitVersions[0]
-        ) {
-          webkitVersion = pickWeightedVersionWithSubValue(safariData.webkitVersions, getRandom());
-        } else {
-          webkitVersion = pickRandom(safariData.webkitVersions as string[], getRandom());
-        }
+        browserVersion = selectVersion(safariData.versions);
+        const webkitVersion = selectVersion(safariData.webkitVersions);
 
         ua = `Mozilla/5.0 (${osString}) AppleWebKit/${webkitVersion} (KHTML, like Gecko) Version/${browserVersion} Safari/${webkitVersion}`;
         break;
       }
       case 'firefox': {
         const firefoxData = getCachedData(browserDataFile.firefox);
-        let ffVersion: string;
-        if (
-          firefoxData.versions[0] &&
-          typeof firefoxData.versions[0] === 'object' &&
-          'subValue' in firefoxData.versions[0]
-        ) {
-          ffVersion = pickWeightedVersionWithSubValue(firefoxData.versions, getRandom());
-        } else {
-          ffVersion = pickRandom(firefoxData.versions as string[], getRandom());
-        }
-        browserVersion = ffVersion;
+        browserVersion = selectVersion(firefoxData.versions);
         ua = `Mozilla/5.0 (${osString}; rv:${browserVersion}) Gecko/20100101 Firefox/${browserVersion}`;
         break;
       }
     }
 
+    // Whether to return structured meta information
     // 是否返回结构化 meta 信息
     if (options.withMeta) {
       meta = buildMeta({
@@ -250,5 +219,6 @@ export function generateUserAgent(
       result.push(ua);
     }
   }
-  return count === 1 ? result[0] : result;
+
+  return count === 1 && result.length > 0 ? result[0] : result;
 }

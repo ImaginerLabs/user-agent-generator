@@ -17,10 +17,14 @@ import * as path from 'path';
  * @returns Array of version numbers / 版本号数组
  */
 export function readVersions(file: string): (string | { value: string; weight: number })[] {
-  const filePath = path.resolve(__dirname, '../data', file);
-  const raw = fs.readFileSync(filePath, 'utf-8');
-  const json = JSON.parse(raw);
-  return json.versions || [];
+  try {
+    const filePath = path.resolve(__dirname, '../data', file);
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    const json = JSON.parse(raw);
+    return json.versions || [];
+  } catch (error) {
+    throw new Error(`Failed to read versions from file ${file}: ${error}`);
+  }
 }
 
 /**
@@ -32,7 +36,14 @@ export function readVersions(file: string): (string | { value: string; weight: n
  * @returns Random item from array / 数组中的随机元素
  */
 export function pickRandom<T>(array: T[], random: number = Math.random()): T {
-  return array[Math.floor(random * array.length)];
+  if (!array || array.length === 0) {
+    throw new Error('Array is empty or undefined');
+  }
+
+  // Ensure random is within valid range
+  // 确保随机数在有效范围内
+  const normalizedRandom = Math.max(0, Math.min(0.999999, random));
+  return array[Math.floor(normalizedRandom * array.length)];
 }
 
 /**
@@ -47,31 +58,55 @@ export function pickWeightedRandom<T extends { value: any; weight: number }>(
   array: T[],
   random: number = Math.random(),
 ): T['value'] {
-  if (array.length === 0) {
-    throw new Error('Array is empty');
+  if (!array || array.length === 0) {
+    throw new Error('Array is empty or undefined');
   }
-  const totalWeight = array.reduce((sum, item) => sum + item.weight, 0);
+
+  // Handle single element case
+  // 处理单元素情况
+  if (array.length === 1) {
+    return array[0].value;
+  }
+
+  const totalWeight = array.reduce((sum, item) => sum + Math.max(0, item.weight), 0);
+
   if (totalWeight === 0) {
     // When all weights are 0, return the last element
     // 所有权重为0时，返回最后一个元素
     return array[array.length - 1].value;
   }
+
+  // Ensure random is within valid range
+  // 确保随机数在有效范围内
+  const normalizedRandom = Math.max(0, Math.min(0.999999, random));
+
   // When random=0, return the first element with weight > 0
   // random=0时，返回第一个权重大于0的元素
-  if (random === 0) {
+  if (normalizedRandom === 0) {
     const first = array.find((item) => item.weight > 0);
     if (first) return first.value;
-    // This should never happen since totalWeight > 0
-    // 理论上不会走到这里，因为 totalWeight > 0
   }
+
   let currentWeight = 0;
-  const targetWeight = random * totalWeight;
+  const targetWeight = normalizedRandom * totalWeight;
+
   for (const item of array) {
-    currentWeight += item.weight;
-    if (targetWeight <= currentWeight) {
-      return item.value;
+    if (item.weight > 0) {
+      currentWeight += item.weight;
+      if (targetWeight <= currentWeight) {
+        return item.value;
+      }
     }
   }
+
+  // Fallback to last element with positive weight
+  // 回退到最后一个正权重元素
+  for (let i = array.length - 1; i >= 0; i--) {
+    if (array[i].weight > 0) {
+      return array[i].value;
+    }
+  }
+
   return array[array.length - 1].value;
 }
 
@@ -86,15 +121,25 @@ export function pickWeightedRandom<T extends { value: any; weight: number }>(
 export function pickWeightedVersionWithSubValue<
   T extends { value: any; weight: number; subValue: { value: string }[] },
 >(array: T[], random: number = Math.random()): string {
+  if (!array || array.length === 0) {
+    throw new Error('Array is empty or undefined');
+  }
+
   // First select major version by weight
   // 首先按权重选择大版本号
   const selectedVersion = pickWeightedRandom(array, random);
+
   // Find the corresponding complete object
   // 找到对应的完整对象
   const versionObj = array.find((item) => item.value === selectedVersion);
   if (!versionObj) {
-    throw new Error('Version object not found');
+    throw new Error(`Version object not found for value: ${selectedVersion}`);
   }
+
+  if (!versionObj.subValue || versionObj.subValue.length === 0) {
+    throw new Error(`SubValue array is empty for version: ${selectedVersion}`);
+  }
+
   // Randomly select a subValue from the array
   // 从数组中随机选择一个 subValue
   const subValue = pickRandom(versionObj.subValue, random);
