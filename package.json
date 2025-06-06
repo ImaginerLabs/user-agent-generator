@@ -1,6 +1,6 @@
 {
   "name": "@imaginerlabs/user-agent-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "High-performance, configurable, batch-generating User-Agent spoofing library. Supports multiple browsers, devices, and returns detailed meta information. Perfect for web scraping, automated testing, proxy pools and more.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
